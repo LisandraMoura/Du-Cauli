@@ -1,4 +1,3 @@
-# main.py
 import os
 import streamlit as st
 from src.processa_audios import transcrever_audio
@@ -30,6 +29,7 @@ opcao = st.selectbox("Escolha uma opção", ["Processar Áudio", "Analisar Dados
 
 if opcao == "Processar Áudio":
     # Permitir upload de múltiplos arquivos
+   
     arquivos = st.file_uploader(
         "Envie os arquivos de áudio (M4A, MP3 ou WAV)", 
         type=["m4a", "mp3", "wav"], 
@@ -69,19 +69,20 @@ if opcao == "Processar Áudio":
                 st.write("📝 Transcrição do áudio concatenado:")
                 st.text_area("", transcricao, height=200)
                 
-                # Extrair dados estruturados (se necessário) e salvar em CSV
-                dados = extrair_dados(transcricao)
-                if dados:
-                    caminho_csv = os.path.join("dados_transcritos", "transcricao_concatenado.csv")
-                    salvar_em_csv(dados, caminho_csv)
-                    st.success(f"Transcrição e extração de dados concluídas! Resultado salvo em {caminho_csv}.")
+                # Formatar transcrição em CSV
+                caminho_csv = os.path.join("dados_transcritos", "transcricao_concatenado.csv")
+                formatar_transcricao_para_csv(transcricao, caminho_csv)
+                st.success(f"Transcrição formatada e salva em CSV: {caminho_csv}")
+                
+                # Botão para download do CSV
+                with open(caminho_csv, "rb") as f:
                     st.download_button(
-                        "Baixar CSV Consolidado", 
-                        open(caminho_csv, "rb").read(), 
-                        file_name="transcricao_concatenado.csv"
+                        label="Baixar CSV",
+                        data=f,
+                        file_name="transcricao_concatenado.csv",
+                        mime="text/csv"
                     )
-                else:
-                    st.warning("Nenhum dado estruturado foi encontrado na transcrição. Verifique o formato do áudio e tente novamente.")
+
             except Exception as e:
                 st.error(f"Erro ao processar o áudio concatenado: {e}")
                 print(f"[ERROR] Erro ao processar o áudio concatenado: {e}")
@@ -115,7 +116,7 @@ elif opcao == "Analisar Dados":
         # Gráfico 1: Histograma das Alturas
         st.write("### Distribuição das Alturas")
         plt.figure()
-        plt.hist(df['ALTURA'].astype(float), bins=10, edgecolor='black')
+        plt.hist(df['altura'].astype(float), bins=10, edgecolor='black')
         plt.xlabel('Altura')
         plt.ylabel('Frequência')
         plt.title('Histograma das Alturas')
@@ -124,7 +125,7 @@ elif opcao == "Analisar Dados":
         # Gráfico 2: Histograma dos Diâmetros
         st.write("### Distribuição dos Diâmetros")
         plt.figure()
-        plt.hist(df['DIÂMETRO'].astype(float), bins=10, edgecolor='black')
+        plt.hist(df['diâmetro'].astype(float), bins=10, edgecolor='black')
         plt.xlabel('Diâmetro')
         plt.ylabel('Frequência')
         plt.title('Histograma dos Diâmetros')
@@ -133,7 +134,7 @@ elif opcao == "Analisar Dados":
         # Gráfico 3: Gráfico de Dispersão entre Altura e Diâmetro
         st.write("### Relação entre Altura e Diâmetro")
         plt.figure()
-        plt.scatter(df['ALTURA'].astype(float), df['DIÂMETRO'].astype(float))
+        plt.scatter(df['altura'].astype(float), df['diâmetro'].astype(float))
         plt.xlabel('Altura')
         plt.ylabel('Diâmetro')
         plt.title('Gráfico de Dispersão entre Altura e Diâmetro')
