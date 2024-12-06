@@ -1,0 +1,21 @@
+Aqui está a tabela CSV formatada com os dados fornecidos:
+
+```csv
+ID,L,altura,diâmetro
+ID1,L1,0.5,0.90
+ID2,L1,0.6,0.88
+ID3,L1,0.7,0.97
+ID4,L1,0.7,0.97
+ID5,L1,0.8,0.99
+ID6,L1,0.3,0.85
+ID1,L2,0.5,0.90
+ID2,L2,0.6,0.98
+ID3,L2,0.7,0.97
+ID4,L2,0.8,0.99
+ID6,L2,0.3,0.95
+ID1,L3,0.5,0.90
+ID2,L3,0.6,0.98
+ID3,L3,0.7,0.97
+ID4,L3,0.8,0.99
+ID6,L3,0.3,0.85
+```
