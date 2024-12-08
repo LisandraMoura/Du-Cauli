@@ -3,6 +3,7 @@ streamlit
 pandas
 python-dotenv
 matplotlib
+pydub
 
 # google
 google-api-python-client
