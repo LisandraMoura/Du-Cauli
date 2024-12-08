@@ -17,22 +17,35 @@ import certifi
 # Configuração de SSL
 ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
 
-## LOCAL ##
-# # Configurações do Google Drive
-# CREDENTIALS_FILE = 'pdm-class-2024-ba9afd8b5e2d.json'
-# SCOPES = ['https://www.googleapis.com/auth/drive']
-
 google_credentials = st.secrets["GOOGLE_CREDENTIALS"]
 # Transformar em dicionário, se necessário
 google_credentials_dict = dict(google_credentials)
 
 GOOGLE_DRIVE_FOLDER_ID = '14Qoy_hf7r6Qh2Rwng97pYMcFu7rf3eqY'
 
+
+## LOCAL ##
+# # Configurações do Google Drive
+# CREDENTIALS_FILE = 'pdm-class-2024-ba9afd8b5e2d.json'
+# SCOPES = ['https://www.googleapis.com/auth/drive']
+
+# @st.cache_resource
+# def create_drive_service():
+#     """Cria o serviço para conectar ao Google Drive."""
+#     try:
+#         credentials = Credentials.from_service_account_file(CREDENTIALS_FILE, scopes=SCOPES)
+#         service = build('drive', 'v3', credentials=credentials)
+#         return service
+#     except Exception as e:
+#         st.error(f"Erro ao conectar ao Google Drive: {e}")
+#         return None
+    
 @st.cache_resource
 def create_drive_service():
     """Cria o serviço para conectar ao Google Drive."""
     try:
-        credentials = Credentials.from_service_account_file(CREDENTIALS_FILE, scopes=SCOPES)
+        # Usar as credenciais do dicionário
+        credentials = Credentials.from_service_account_info(google_credentials_dict)
         service = build('drive', 'v3', credentials=credentials)
         return service
     except Exception as e:

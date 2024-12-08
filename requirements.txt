@@ -2,6 +2,7 @@ openai==0.28
 streamlit
 pandas
 python-dotenv
+matplotlib
 
 # google
 google-api-python-client
