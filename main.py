@@ -13,6 +13,12 @@ from src.processa_audios import transcrever_audio
 from src.gera_excel import formatar_transcricao_para_csv
 import ssl
 import certifi
+from dotenv import load_dotenv
+
+# Carregar a chave de API do arquivo .env
+load_dotenv()
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["general"]["OPENAI_API_KEY"]
 
 # Configuração de SSL
 ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
