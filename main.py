@@ -14,6 +14,7 @@ from src.gera_excel import formatar_transcricao_para_csv
 import ssl
 import certifi
 from dotenv import load_dotenv
+import openai
 
 # Carregar a chave de API do arquivo .env
 load_dotenv()
