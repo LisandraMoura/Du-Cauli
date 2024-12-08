@@ -17,9 +17,15 @@ import certifi
 # Configuração de SSL
 ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
 
-# Configurações do Google Drive
-CREDENTIALS_FILE = 'pdm-class-2024-ba9afd8b5e2d.json'
-SCOPES = ['https://www.googleapis.com/auth/drive']
+## LOCAL ##
+# # Configurações do Google Drive
+# CREDENTIALS_FILE = 'pdm-class-2024-ba9afd8b5e2d.json'
+# SCOPES = ['https://www.googleapis.com/auth/drive']
+
+google_credentials = st.secrets["GOOGLE_CREDENTIALS"]
+# Transformar em dicionário, se necessário
+google_credentials_dict = dict(google_credentials)
+
 GOOGLE_DRIVE_FOLDER_ID = '14Qoy_hf7r6Qh2Rwng97pYMcFu7rf3eqY'
 
 @st.cache_resource
@@ -68,9 +74,9 @@ st.write("##### Bem-vindo a um futuro de coleta de dados em campo mais ágil, in
 
 
 # Menu de navegação
-opcao = st.selectbox("Lista de ferramentas disponíveis: ", ["Processar Áudio", "Analisar Dados"])
+opcao = st.selectbox("Lista de ferramentas disponíveis: ", ["Processador de áudio", "Análise de dados"])
 
-if opcao == "Processar Áudio":
+if opcao == "Processador de áudio":
     # Upload de arquivos locais
     st.write("### Arquivos Locais")
     arquivos_locais = st.file_uploader(
@@ -181,15 +187,15 @@ if opcao == "Processar Áudio":
             shutil.rmtree(pasta_temporaria)
             st.write("🧹 Pasta temporária limpa.")
 
-elif opcao == "Analisar Dados":
+elif opcao == "Análise de dados":
     st.write("### Faça o upload do CSV gerado para análise dos dados ou use o arquivo gerado anteriormente")
-    opcao_csv = st.radio("Como você deseja fornecer o CSV?", ["Upload de Arquivo", "Usar Caminho Existente"])
+    opcao_csv = st.radio("Como você deseja fornecer o CSV?", ["Upload de Arquivo", "CSV gerado"])
 
     if opcao_csv == "Upload de Arquivo":
         arquivo_csv = st.file_uploader("Envie o arquivo CSV", type=["csv"])
         if arquivo_csv is not None:
             df = pd.read_csv(arquivo_csv)
-    elif opcao_csv == "Usar Caminho Existente":
+    elif opcao_csv == "CSV gerado":
         caminho_csv_existente = os.path.join("dados_transcritos", "transcricao_concatenado.csv")
         if os.path.exists(caminho_csv_existente):
             df = pd.read_csv(caminho_csv_existente)
